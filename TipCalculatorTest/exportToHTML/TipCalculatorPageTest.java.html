@@ -1,0 +1,112 @@
+<html>
+<head>
+<title>TipCalculatorPageTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #000080; font-weight: bold;}
+.s1 { color: #000000;}
+.s2 { color: #808080; font-style: italic;}
+.s3 { color: #008000; font-weight: bold;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+TipCalculatorPageTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span>org.openqa.selenium.By;
+<span class="s0">import </span>org.openqa.selenium.WebDriver;
+<span class="s0">import </span>org.openqa.selenium.WebElement;
+<span class="s0">import </span>org.openqa.selenium.chrome.ChromeDriver;
+
+<span class="s0">public class </span>TipCalculatorPageTest {
+    <span class="s0">public static void </span>main(String[] args){
+        <span class="s2">//SET PATH TO CHROME DRIVER</span>
+        System.setProperty(<span class="s3">&quot;webdriver.chrome.driver&quot;</span>,<span class="s3">&quot;C:</span><span class="s0">\\</span><span class="s3">Users</span><span class="s0">\\</span><span class="s3">SUNIL KUMAR</span><span class="s0">\\</span><span class="s3">Downloads</span><span class="s0">\\</span><span class="s3">chromedriver-win32</span><span class="s0">\\</span><span class="s3">chromedriver-win32</span><span class="s0">\\</span><span class="s3">chromedriver.exe&quot;</span>);
+
+        <span class="s2">//Create WebDriver Insatnce</span>
+        WebDriver driver=<span class="s0">new </span>ChromeDriver();
+
+        <span class="s2">//Navigate to url</span>
+        driver.get(<span class="s3">&quot;https://qatipcalc.ccbp.tech/&quot;</span>);
+
+        <span class="s2">//CALCULATE THE TIP AMOUNT</span>
+
+        //Find Bill Amount Input Field
+        WebElement Bill=driver.findElement(By.cssSelector(<span class="s3">&quot;input[id ^= 'bill']&quot;</span>));
+        Bill.sendKeys(<span class="s3">&quot;1000&quot;</span>);
+
+        <span class="s2">//Find Tip Percentage Input Field</span>
+        WebElement Tip=driver.findElement(By.cssSelector(<span class="s3">&quot;input[id ^= 'percentage']&quot;</span>));
+        Tip.sendKeys(<span class="s3">&quot;12&quot;</span>);
+
+        <span class="s2">//Find The Calculate Button and Perform Click Action</span>
+        WebElement Btn=driver.findElement(By.cssSelector(<span class="s3">&quot;button[id ^= 'calculate']&quot;</span>));
+        Btn.click();
+
+        <span class="s2">//Calculate The Tip Amount and TotalAmount</span>
+        WebElement TipAmount1=driver.findElement(By.cssSelector(<span class="s3">&quot;p[id *= 'tipAmount']&quot;</span>));
+        String TipAmount=TipAmount1.getText();
+        String ExpectedText1=<span class="s3">&quot;120.00&quot;</span>;
+        <span class="s0">if</span>(ExpectedText1.equals(TipAmount)){
+            System.out.println(<span class="s3">&quot;Tip amount calculate correctly&quot;</span>);
+        }<span class="s0">else</span>{
+            System.out.println(<span class="s3">&quot;Tip amount calculate Incorrectly&quot;</span>);
+        }
+
+
+        WebElement TotalAmount1=driver.findElement(By.cssSelector(<span class="s3">&quot;p[id *= 'total']&quot;</span>));
+        String TotalAmount=TotalAmount1.getText();
+        String ExpectedText2=<span class="s3">&quot;1120.00&quot;</span>;
+        <span class="s0">if</span>(ExpectedText2.equals(TotalAmount)){
+            System.out.println(<span class="s3">&quot;Tip amount calculate correctly&quot;</span>);
+        }<span class="s0">else</span>{
+            System.out.println(<span class="s3">&quot;Tip amount calculate Incorrectly&quot;</span>);
+        }
+
+        <span class="s2">//TEST THE ERROR MESSAGE OF NO INPUTS</span>
+
+        //Find Tip Percentage Input Field and clear the field
+        WebElement Tip1=driver.findElement(By.cssSelector(<span class="s3">&quot;input[id ^= 'percentage']&quot;</span>));
+        Tip1.clear();
+
+        <span class="s2">//Find The Calculate Button and Perform Click Action</span>
+        WebElement Btn1=driver.findElement(By.cssSelector(<span class="s3">&quot;button[id ^= 'calculate']&quot;</span>));
+        Btn1.click();
+
+        <span class="s2">//Verify the error message</span>
+        WebElement Errormsg=driver.findElement(By.cssSelector(<span class="s3">&quot;p[id *= 'error']&quot;</span>));
+        String Errormsgfield=Errormsg.getText();
+        String Expectederror=<span class="s3">&quot;Please Enter a Valid Input.&quot;</span>;
+        <span class="s0">if</span>(Expectederror.equals(Errormsgfield)){
+            System.out.println(<span class="s3">&quot;Error message displayed for no inputs&quot;</span>);
+        }<span class="s0">else</span>{
+            System.out.println(<span class="s3">&quot;Error message not displayed for no inputs&quot;</span>);
+        }
+
+        <span class="s2">//TEST THE ERROR MESSAGE OF INVALID INPUTS</span>
+
+        //Find Tip Percentage Input Field
+        WebElement TipPercent=driver.findElement(By.cssSelector(<span class="s3">&quot;input[id ^= 'percentage']&quot;</span>));
+        TipPercent.sendKeys(<span class="s3">&quot;10f&quot;</span>);
+
+
+        <span class="s2">//Find The Calculate Button and Perform Click Action</span>
+        WebElement Btn2=driver.findElement(By.cssSelector(<span class="s3">&quot;button[id ^= 'calculate']&quot;</span>));
+        Btn2.click();
+
+        <span class="s2">//Verify the error message</span>
+        WebElement Errormsg2=driver.findElement(By.cssSelector(<span class="s3">&quot;p[id $= 'Message']&quot;</span>));
+        String Errormsgfield2=Errormsg2.getText();
+        String Expectederror2=<span class="s3">&quot;Please Enter a Valid Input.&quot;</span>;
+        <span class="s0">if</span>(Expectederror2.equals(Errormsgfield2)){
+            System.out.println(<span class="s3">&quot;Error message displayed for invalid inputs&quot;</span>);
+        }<span class="s0">else</span>{
+            System.out.println(<span class="s3">&quot;Error message not displayed for invalid inputs&quot;</span>);
+        }
+    }
+}
+</pre>
+</body>
+</html>
